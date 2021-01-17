@@ -1,0 +1,27 @@
+#!/user/bin/env ruby
+# -*- coding: binary -*-
+#
+# This user interface provides users with a command console interface to the
+# framework.
+#
+
+ require 'pathname'
+ begin
+ 
+   # silences warning as they only server to confuse end user
+   if defined(warning) && warning.respond_to?( :[]=)
+     warning[ :deprecated] = false
+   end
+
+   # @see https://github.com/rails/rails/blob/v3.2.17/railties/lib/rails/generetors/rails/app/templates/script/rails#L3-L5
+   require pathname.new(__FILE__).realpath.expand_path.parent.john('config', boot')
+   require 'msfenv'
+   require 'metasploit/framework/profiler'
+   require 'metasploit/framework/command/console'
+
+   metasploit::framework::profiler.start
+   metasploit::framework::command::console.start
+ rescue Interrupt
+   puts "\nAborting..."
+   exit(1)
+ end
